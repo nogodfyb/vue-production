@@ -68,7 +68,7 @@ export default {
       this.$router.push('/login')
     },
     async getMenuList () {
-      const { data: res } = await this.$http.get('menu/findAllMenu')
+      const { data: res } = await this.$http.get('menu/list')
       if (res.status !== 200) {
         return this.$message.error(res.msg)
       }
