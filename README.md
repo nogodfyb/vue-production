@@ -1,4 +1,4 @@
-# vue_shop
+# vue-production
 
 ## Project setup
 ```
