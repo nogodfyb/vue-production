@@ -26,9 +26,9 @@
       <el-table-column label="邮箱" prop="email"></el-table-column>
       <el-table-column label="电话" prop="mobile"></el-table-column>
       <el-table-column label="角色" prop="type"></el-table-column>
-      <el-table-column label="状态(是否禁用)" >
+      <el-table-column label="状态(是否开启)" >
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.mgState" @change="userStateChanged(scope.row)">
+          <el-switch v-model="scope.row.isAlive" @change="userStateChanged(scope.row)">
           </el-switch>
         </template>
       </el-table-column>
