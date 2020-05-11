@@ -161,6 +161,7 @@ export default {
       ]
       console.log('当前需要分配权限的角色id:' + this.roleId)
       console.log(keys)
+      this.$message.success('收到您点中的所有权限id:[' + keys + ']但目前不做更新')
     },
     addRole () {
       return this.$message.error('暂不开放添加！')
