@@ -11,7 +11,7 @@
         <!-- 添加角色按钮区域 -->
         <el-row>
           <el-col>
-            <el-button type="primary">添加角色</el-button>
+            <el-button type="primary" @click="addRole">添加角色</el-button>
           </el-col>
         </el-row>
         <!--        角色列表-->
@@ -51,8 +51,8 @@
           <el-table-column label="角色描述" prop="roleDesc"></el-table-column>
           <el-table-column label="操作" >
             <template slot-scope="scope">
-              <el-button type="primary" icon="el-icon-edit" size="mini" >编辑</el-button>
-              <el-button type="danger" icon="el-icon-delete" size="mini" >删除</el-button>
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="editRole" >编辑</el-button>
+              <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRole" >删除</el-button>
               <el-tooltip  effect="dark" content="分配权限" placement="top-start" :enterable="false">
                 <el-button type="warning" icon="el-icon-setting" size="mini" @click="showSetRightDialog(scope.row)">
                   分配权限
@@ -131,13 +131,12 @@ export default {
     },
     async showSetRightDialog (role) {
       this.roleId = role.roleId
-      const { data: res } = await this.$http.get('right/tree')
+      const { data: res } = await this.$http.get('rights/tree')
       if (res.status !== 200) {
         return this.$message.error('获取权限数据失败！')
       }
       // 把获取到的权限数据保存到 data 中
       this.rightsList = res.data
-      console.log(this.rightsList)
       this.getLeafKeys(role, this.defKeys)
       this.setRightDialogVisible = true
     },
@@ -152,6 +151,7 @@ export default {
     // 关闭后清空被选中的三级权限id
     setRightDialogClosed () {
       this.defKeys = []
+      console.log(this.defKeys)
     },
     // 点击为角色分配权限
     allotRights () {
@@ -161,7 +161,17 @@ export default {
       ]
       console.log('当前需要分配权限的角色id:' + this.roleId)
       console.log(keys)
+    },
+    addRole () {
+      return this.$message.error('暂不开放添加！')
+    },
+    editRole () {
+      return this.$message.error('暂不开放编辑！')
+    },
+    deleteRole () {
+      return this.$message.error('暂不开放删除！')
     }
+
   }
 }
 </script>
