@@ -112,7 +112,7 @@
     @close="setRoleDialogClosed">
     <div>
       <p>当前的用户：{{userInfo.username}}</p>
-      <p>当前的角色：还没有设置角色字段！</p>
+      <p>当前的角色：{{userInfo.roleName}}</p>
       <p>分配新角色:
         <el-select v-model="selectedId" placeholder="请选择" >
           <el-option
@@ -331,8 +331,8 @@ export default {
       this.userInfo = user
       // 获取所有角色的列表,这里没有写后端接口，模拟数据学习前端而已
       this.rolesList = [{ roleId: 101, roleName: '超级管理员' },
-        { roleId: 102, roleName: '超级管理员2' },
-        { roleId: 103, roleName: '超级管理员3' }]
+        { roleId: 102, roleName: '普通管理员' },
+        { roleId: 103, roleName: '普通用户' }]
       this.setRoleDialogVisible = true
     },
     // 点击按钮，分配角色
@@ -342,6 +342,7 @@ export default {
       }
       console.log('当前用户id:' + this.userInfo.id)
       console.log('当前选中角色id:' + this.selectedId)
+      return this.$message.error('当前不开放分配角色权限！')
     },
     setRoleDialogClosed () {
       this.selectedId = ''
