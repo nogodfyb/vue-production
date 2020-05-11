@@ -3,7 +3,7 @@
     <el-header >
       <div>
         <img src="../assets/logo.png" alt="" style="height: 50px ;width: 50px">
-        <span>生产制造管理系统</span>
+        <span>生产作业计划管理系统</span>
       </div>
       <el-button type="info" @click="loginOut">退出</el-button>
     </el-header>

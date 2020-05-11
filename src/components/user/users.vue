@@ -32,12 +32,12 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200px">
+      <el-table-column label="操作" width="300px">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUser(scope.row.id)"></el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)">编辑</el-button>
+          <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUser(scope.row.id)">删除</el-button>
           <el-tooltip  effect="dark" content="分配角色" placement="top-start" :enterable="false">
-            <el-button type="warning" icon="el-icon-setting" size="mini" @click="setRole(scope.row)"></el-button>
+            <el-button type="warning" icon="el-icon-setting" size="mini" @click="setRole(scope.row)">分配角色</el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -47,7 +47,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="queryInfo.pageNum"
-      :page-sizes="[2, 3, 5, 10]"
+      :page-sizes="[3, 5, 10, 15]"
       :page-size="queryInfo.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
@@ -304,7 +304,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteUserById(id)
+        // 暂不开启删除功能
+        return this.$message.error('暂不开启删除功能')
+        // this.deleteUserById(id)
       }).catch(() => {
         this.$message({
           type: 'info',
