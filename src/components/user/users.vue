@@ -240,10 +240,10 @@ export default {
     // 监听 switch 开关状态的改变
     async userStateChanged (userInfo) {
       const { data: res } = await this.$http.put(
-        `user/users/${userInfo.id}/mgState/${userInfo.mgState}`
+        `user/${userInfo.id}/state/${userInfo.isAlive}`
       )
       if (res.status !== 200) {
-        userInfo.mgState = !userInfo.mgState
+        userInfo.isAlive = !userInfo.isAlive
         return this.$message.error('更新用户状态失败！')
       }
       this.$message.success('更新用户状态成功！')
@@ -258,9 +258,9 @@ export default {
           return false
         }
         // 可以发起添加用户的网络请求
-        const { data: res } = await this.$http.post('user/users', this.addForm)
-        if (res.status !== 201) {
-          this.$message.error('添加用户失败！')
+        const { data: res } = await this.$http.post('user/add', this.addForm)
+        if (res.status !== 200) {
+          return this.$message.error('添加用户失败！')
         }
         this.$message.success('添加用户成功！')
         // 隐藏添加用户的对话框

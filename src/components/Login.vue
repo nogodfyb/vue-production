@@ -53,6 +53,7 @@ export default {
             return this.$message.error('登录失败')
           }
           this.$message.success('登录成功')
+          // this.$router.push(`home?${res.data.data.id}`)
           this.$router.push('home')
         })
       })
