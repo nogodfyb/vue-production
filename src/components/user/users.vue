@@ -25,7 +25,7 @@
       <el-table-column label="姓名" prop="username"></el-table-column>
       <el-table-column label="邮箱" prop="email"></el-table-column>
       <el-table-column label="电话" prop="mobile"></el-table-column>
-      <el-table-column label="角色" prop="type"></el-table-column>
+      <el-table-column label="角色" prop="roleName"></el-table-column>
       <el-table-column label="状态(是否开启)" >
         <template slot-scope="scope">
           <el-switch v-model="scope.row.isAlive" @change="userStateChanged(scope.row)">
