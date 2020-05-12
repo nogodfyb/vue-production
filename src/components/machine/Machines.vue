@@ -33,7 +33,7 @@ export default {
     async getMachineList () {
       const { data: res } = await this.$http.get('machine/list')
       if (res.status !== 200) {
-        return this.$message.error('获取权限列表失败！')
+        return this.$message.error('获取机台列表失败！')
       }
       this.machineList = res.data
     }

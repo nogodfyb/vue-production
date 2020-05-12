@@ -8,6 +8,7 @@ import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
 import Machines from '../components/machine/Machines.vue'
 import Products from '../components/machine/Products.vue'
+import Productivitys from '../components/machine/Productivitys.vue'
 
 Vue.use(VueRouter)
 
@@ -24,7 +25,8 @@ const routes = [
       { path: '/rights', component: Rights },
       { path: '/roles', component: Roles },
       { path: '/machines', component: Machines },
-      { path: '/products', component: Products }
+      { path: '/products', component: Products },
+      { path: '/productivitys', component: Productivitys }
     ]
   }
 ]
