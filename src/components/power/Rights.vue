@@ -8,7 +8,7 @@
       </el-breadcrumb>
       <el-card>
 <!--        权限列表-->
-        <el-table :data="rightsList" border stripe>
+        <el-table :data="rightsList" border stripe height="700">
           <el-table-column type="index"></el-table-column>
           <el-table-column label="权限名称" prop="authName"></el-table-column>
           <el-table-column label="路径" prop="controller"></el-table-column>
