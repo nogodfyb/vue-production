@@ -20,7 +20,7 @@
       </el-col>
     </el-row>
     <!-- 用户列表区域 -->
-    <el-table :data="userList" border stripe>
+    <el-table :data="userList" border stripe height="650">
       <el-table-column type="index"></el-table-column>
       <el-table-column label="姓名" prop="username"></el-table-column>
       <el-table-column label="邮箱" prop="email"></el-table-column>

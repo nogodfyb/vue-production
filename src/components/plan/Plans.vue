@@ -4,17 +4,20 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>生产计划安排</el-breadcrumb-item>
-      <el-breadcrumb-item>计划列表</el-breadcrumb-item>
+      <el-breadcrumb-item>计划批次列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <el-button type="primary" @click="addDialogVisible=true">添加计划</el-button>
       <!--        计划列表-->
-      <el-table :data="productList" border stripe height="700">
+      <el-table :data="planItemList" border stripe height="600" @selection-change="changeFun">
+        <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index"></el-table-column>
-        <el-table-column label="产品编号" prop="code"></el-table-column>
+        <el-table-column label="计划批次号" prop="planNo"></el-table-column>
         <el-table-column label="产品名称" prop="name"></el-table-column>
-        <el-table-column label="产品单价/元" prop="unitPrice"></el-table-column>
+        <el-table-column label="计划生产数量" prop="productQuantity"></el-table-column>
+        <el-table-column label="开始日期" prop="startTime"></el-table-column>
       </el-table>
+      <el-button type="success" @click="addDialogVisible=true" style="margin-top: 10px">生产计划生成</el-button>
     </el-card>
     <el-dialog
       :visible.sync="addDialogVisible"
@@ -50,7 +53,8 @@
           <el-date-picker
             v-model="planForm.startTime"
             type="date"
-            placeholder="选择日期">
+            placeholder="选择日期"
+            value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -66,11 +70,11 @@
 <script>
 export default {
   created () {
-    this.getProductList()
+    this.getPlanItemList()
   },
   data () {
     return {
-      productList: [],
+      planItemList: [],
       addDialogVisible: false,
       options: [
         { value: '202005', label: '计划批次1' },
@@ -87,22 +91,18 @@ export default {
         { productId: 1001, label: '天府RD-109' },
         { productId: 1002, label: '天府RD-110A' },
         { productId: 1003, label: '天府RD-123' }
-      ]
-    }
-  },
-  watch: {
-    'planForm.startTime': function (val) {
-      console.log(val)
+      ],
+      selectedPlanItemIds: []
     }
   },
   methods: {
     // 获取产品列表
-    async getProductList () {
-      const { data: res } = await this.$http.get('product/list')
+    async getPlanItemList () {
+      const { data: res } = await this.$http.get('plan-item/list')
       if (res.status !== 200) {
         return this.$message.error('获取产品列表失败！')
       }
-      this.productList = res.data
+      this.planItemList = res.data
     },
     addPlanDialogClosed () {
       this.planForm = {}
@@ -113,6 +113,15 @@ export default {
       if (res.status !== 200) {
         return this.$message.error('添加计划失败！')
       }
+      this.addDialogVisible = false
+      this.getPlanItemList()
+    },
+    // 选项变化重置数据
+    changeFun (array) {
+      this.selectedPlanItemIds = array.map((item) => {
+        return item.id
+      })
+      console.log(this.selectedPlanItemIds)
     }
   }
 }
