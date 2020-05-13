@@ -19,11 +19,12 @@
     <el-dialog
       :visible.sync="addDialogVisible"
     width="50%"
-    title="添加计划">
+    title="添加计划"
+    @close="addPlanDialogClosed">
 <!--      主体区域-->
       <el-form label-width="100px">
         <el-form-item label="计划批次号" >
-          <el-select v-model="value" placeholder="请选择">
+          <el-select v-model="planForm.planNo" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -32,11 +33,31 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="产品编号" >
+          <el-select v-model="planForm.productId" placeholder="请选择">
+            <el-option
+              v-for="item in productionOptions"
+              :key="item.productId"
+              :label="item.label"
+              :value="item.productId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="数量" >
+          <el-input v-model.number="planForm.productQuantity" style="width: 217px"></el-input>
+        </el-form-item>
+        <el-form-item label="起始时间" >
+          <el-date-picker
+            v-model="planForm.startTime"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
       </el-form>
       <!--      底部区域-->
       <span slot="footer" class="dialog-footer">
     <el-button @click="addDialogVisible = false">取 消</el-button>
-    <el-button type="primary"  >确 定</el-button>
+    <el-button type="primary"  @click="addPlan">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -51,25 +72,26 @@ export default {
     return {
       productList: [],
       addDialogVisible: false,
-      options: [{
-        value: '202005',
-        label: '计划批次1'
-      }, {
-        value: '202006',
-        label: '计划批次2'
-      }, {
-        value: '202007',
-        label: '计划批次3'
-      }],
-      value: '',
-      planForm: {},
+      options: [
+        { value: '202005', label: '计划批次1' },
+        { value: '202006', label: '计划批次2' },
+        { value: '202007', label: '计划批次3' }
+      ],
+      planForm: {
+        planNo: undefined,
+        productId: undefined,
+        productQuantity: undefined,
+        startTime: undefined
+      },
       productionOptions: [
-        { productId: 1001, label: '' }
+        { productId: 1001, label: '天府RD-109' },
+        { productId: 1002, label: '天府RD-110A' },
+        { productId: 1003, label: '天府RD-123' }
       ]
     }
   },
   watch: {
-    value: function (val) {
+    'planForm.startTime': function (val) {
       console.log(val)
     }
   },
@@ -81,6 +103,16 @@ export default {
         return this.$message.error('获取产品列表失败！')
       }
       this.productList = res.data
+    },
+    addPlanDialogClosed () {
+      this.planForm = {}
+    },
+    // 添加计划
+    async addPlan () {
+      const { data: res } = await this.$http.post('plan-item/add', this.planForm)
+      if (res.status !== 200) {
+        return this.$message.error('添加计划失败！')
+      }
     }
   }
 }
