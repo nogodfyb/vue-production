@@ -9,7 +9,7 @@
     <el-card>
       <el-button type="primary" @click="addDialogVisible=true">添加计划</el-button>
       <!--        计划列表-->
-      <el-table :data="planItemList" border stripe height="600" @selection-change="changeFun">
+      <el-table :data="planItemList" border stripe height="650" @selection-change="changeFun">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="计划批次号" prop="planNo"></el-table-column>
@@ -17,13 +17,16 @@
         <el-table-column label="计划生产数量" prop="productQuantity"></el-table-column>
         <el-table-column label="开始日期" prop="startTime"></el-table-column>
       </el-table>
-      <el-button type="success" @click="addDialogVisible=true" style="margin-top: 10px">生产计划生成</el-button>
+      <el-button type="success" @click="generateProductionPlans" style="margin-top: 15px">生产计划生成</el-button>
     </el-card>
+<!--    添加计划对话框-->
     <el-dialog
       :visible.sync="addDialogVisible"
     width="50%"
     title="添加计划"
-    @close="addPlanDialogClosed">
+    @close="addPlanDialogClosed"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false">
 <!--      主体区域-->
       <el-form label-width="100px">
         <el-form-item label="计划批次号" >
@@ -64,6 +67,10 @@
     <el-button type="primary"  @click="addPlan">确 定</el-button>
       </span>
     </el-dialog>
+<!--    生成计划对话框-->
+    <el-dialog :visible.sync="generateDialogVisible" width="12%" :show-close="false" >
+      <el-progress type="circle" :percentage="currentPercentage" ></el-progress>
+    </el-dialog>
   </div>
 </template>
 
@@ -76,6 +83,8 @@ export default {
     return {
       planItemList: [],
       addDialogVisible: false,
+      generateDialogVisible: false,
+      currentPercentage: 20,
       options: [
         { value: '202005', label: '计划批次1' },
         { value: '202006', label: '计划批次2' },
@@ -96,7 +105,7 @@ export default {
     }
   },
   methods: {
-    // 获取产品列表
+    // 获取计划列表
     async getPlanItemList () {
       const { data: res } = await this.$http.get('plan-item/list')
       if (res.status !== 200) {
@@ -122,6 +131,14 @@ export default {
         return item.id
       })
       console.log(this.selectedPlanItemIds)
+    },
+    async generateProductionPlans () {
+      this.generateDialogVisible = true
+      const { data: res } = await this.$http.post('plan-item/generateProductionPlans', this.selectedPlanItemIds)
+      if (res.status !== 200) {
+        return this.$message.error('操作失败')
+      }
+      this.currentPercentage = 100
     }
   }
 }
