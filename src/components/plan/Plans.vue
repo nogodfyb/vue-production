@@ -17,7 +17,7 @@
         <el-table-column label="计划生产数量" prop="productQuantity"></el-table-column>
         <el-table-column label="开始日期" prop="startTime"></el-table-column>
       </el-table>
-      <el-button type="success" @click="generateProductionPlans" style="margin-top: 15px">生产计划生成</el-button>
+      <el-button type="success" @click="generateProductionPlans" style="margin-top: 15px">分配各机台生产计划</el-button>
     </el-card>
 <!--    添加计划对话框-->
     <el-dialog
