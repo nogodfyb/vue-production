@@ -40,7 +40,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="产品编号" >
-          <el-select v-model="planForm.productId" placeholder="请选择">
+          <el-select v-model="planForm.productCode" placeholder="请选择">
             <el-option
               v-for="item in productionOptions"
               :key="item.productId"
@@ -92,7 +92,7 @@ export default {
       ],
       planForm: {
         planNo: undefined,
-        productId: undefined,
+        productCode: undefined,
         productQuantity: undefined,
         startTime: undefined
       },
@@ -109,7 +109,7 @@ export default {
     async getPlanItemList () {
       const { data: res } = await this.$http.get('plan-item/list')
       if (res.status !== 200) {
-        return this.$message.error('获取产品列表失败！')
+        return this.$message.error('获取计划列表失败！')
       }
       this.planItemList = res.data
     },
@@ -120,7 +120,7 @@ export default {
     async addPlan () {
       const { data: res } = await this.$http.post('plan-item/add', this.planForm)
       if (res.status !== 200) {
-        return this.$message.error('添加计划失败！')
+        return this.$message.error('添加计划失败！选择的日期不能小于当天！')
       }
       this.addDialogVisible = false
       this.getPlanItemList()
