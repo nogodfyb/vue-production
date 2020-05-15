@@ -68,7 +68,8 @@
       </span>
     </el-dialog>
 <!--    生成计划对话框-->
-    <el-dialog :visible.sync="generateDialogVisible" width="12%" :show-close="false" >
+    <el-dialog :visible.sync="generateDialogVisible" width="12%" :show-close="false"
+               :close-on-click-modal="false" :close-on-press-escape="false" @close="generateDialogClosed">
       <el-progress type="circle" :percentage="currentPercentage" ></el-progress>
     </el-dialog>
   </div>
@@ -132,13 +133,23 @@ export default {
       })
       console.log(this.selectedPlanItemIds)
     },
+    // 生成机台生成计划
     async generateProductionPlans () {
+      if (this.selectedPlanItemIds.length === 0) {
+        return this.$message.error('您没有选中任何计划！')
+      }
       this.generateDialogVisible = true
       const { data: res } = await this.$http.post('plan-item/generateProductionPlans', this.selectedPlanItemIds)
       if (res.status !== 200) {
         return this.$message.error('操作失败')
       }
       this.currentPercentage = 100
+      this.generateDialogVisible = false
+      this.$message.success('已经分配好生产计划！请到机台生产计划列表查看')
+      this.getPlanItemList()
+    },
+    generateDialogClosed () {
+      this.currentPercentage = 20
     }
   }
 }
