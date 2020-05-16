@@ -10,6 +10,7 @@ import Machines from '../components/machine/Machines.vue'
 import Products from '../components/machine/Products.vue'
 import Productivitys from '../components/machine/Productivitys.vue'
 import Plans from '../components/plan/Plans.vue'
+import MachinePlans from '../components/plan/MachinePlans.vue'
 
 Vue.use(VueRouter)
 
@@ -28,7 +29,8 @@ const routes = [
       { path: '/machines', component: Machines },
       { path: '/products', component: Products },
       { path: '/productivitys', component: Productivitys },
-      { path: '/plans', component: Plans }
+      { path: '/plans', component: Plans },
+      { path: '/machinePlans', component: MachinePlans }
     ]
   }
 ]

@@ -8,8 +8,9 @@
     </el-breadcrumb>
     <el-card>
       <el-button type="primary" @click="addDialogVisible=true">添加计划</el-button>
+      <p>注意：计划批次的计划产量不得小于当天产能!</p>
       <!--        计划列表-->
-      <el-table :data="planItemList" border stripe height="650" @selection-change="changeFun">
+      <el-table :data="planItemList" border stripe height="600" @selection-change="changeFun">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="计划批次号" prop="planNo"></el-table-column>
@@ -49,7 +50,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="数量" >
+        <el-form-item label="计划生产数量" >
           <el-input v-model.number="planForm.productQuantity" style="width: 217px"></el-input>
         </el-form-item>
         <el-form-item label="起始时间" >
