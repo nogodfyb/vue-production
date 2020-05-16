@@ -88,9 +88,9 @@ export default {
       generateDialogVisible: false,
       currentPercentage: 20,
       options: [
-        { value: '202005', label: '计划批次1' },
-        { value: '202006', label: '计划批次2' },
-        { value: '202007', label: '计划批次3' }
+        { value: '202005', label: '202005' },
+        { value: '202006', label: '202006' },
+        { value: '202007', label: '202007' }
       ],
       planForm: {
         planNo: undefined,
