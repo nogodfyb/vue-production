@@ -141,7 +141,8 @@ export default {
       this.generateDialogVisible = true
       const { data: res } = await this.$http.post('plan-item/generateProductionPlans', this.selectedPlanItemIds)
       if (res.status !== 200) {
-        return this.$message.error('操作失败')
+        this.generateDialogVisible = false
+        return this.$message.error('操作失败，计划批次的时间顺序不能为逆序！')
       }
       this.currentPercentage = 100
       this.generateDialogVisible = false
