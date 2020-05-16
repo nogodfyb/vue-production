@@ -7,8 +7,24 @@
       <el-breadcrumb-item>机台生产计划列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
+      <el-date-picker
+        v-model="queryInfo.productionDate"
+        type="date"
+        placeholder="选择日期"
+        value-format="yyyy-MM-dd"
+      @change="selectDate">
+      </el-date-picker>
+      <el-select v-model="queryInfo.planNo" placeholder="请选择计划批次号"
+                 style="margin-left: 20px" @change="selectPlanNo">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <!--        机台计划列表-->
-      <el-table :data="machinePlanList" border stripe height="700">
+      <el-table :data="machinePlanList" border stripe height="650">
         <el-table-column type="index"></el-table-column>
         <el-table-column label="机台编码" prop="machineCode"></el-table-column>
         <el-table-column label="计划批次号" prop="planNo"></el-table-column>
@@ -42,13 +58,19 @@ export default {
       // 获取机台计划列表的参数对象
       queryInfo: {
         // 查询参数
-        query: '',
+        productionDate: '',
+        planNo: '',
         // 当前的页数
         pageNum: 1,
         // 当前每页显示多少条数据
         pageSize: 10
       },
-      total: 0
+      total: 0,
+      options: [
+        { value: '202005', label: '计划批次1' },
+        { value: '202006', label: '计划批次2' },
+        { value: '202007', label: '计划批次3' }
+      ]
     }
   },
   methods: {
@@ -67,6 +89,12 @@ export default {
     },
     handleCurrentChange (newPage) {
       this.queryInfo.pageNum = newPage
+      this.getMachinePlanList()
+    },
+    selectDate () {
+      this.getMachinePlanList()
+    },
+    selectPlanNo () {
       this.getMachinePlanList()
     }
   }
