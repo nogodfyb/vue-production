@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h3>welcome</h3>
+      <h3>欢迎来到我的小作品！请点击左边菜单栏开始浏览！</h3>
     </div>
 </template>
 
