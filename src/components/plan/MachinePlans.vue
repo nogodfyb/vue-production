@@ -15,7 +15,7 @@
       @change="selectDate">
       </el-date-picker>
       <el-select v-model="queryInfo.planNo" placeholder="请选择计划批次号"
-                 style="margin-left: 20px" @change="selectPlanNo">
+                 style="margin-left: 20px" @change="selectPlanNo" clearable>
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -24,7 +24,7 @@
         </el-option>
       </el-select>
       <!--        机台计划列表-->
-      <el-table :data="machinePlanList" border stripe height="650">
+      <el-table :data="machinePlanList" border stripe show-summary :summary-method="getSum">
         <el-table-column type="index"></el-table-column>
         <el-table-column label="机台编码" prop="machineCode"></el-table-column>
         <el-table-column label="计划批次号" prop="planNo"></el-table-column>
@@ -38,7 +38,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pageNum"
-        :page-sizes="[5, 10, 15, 20]"
+        :page-sizes="[5, 10, 15, 20, total]"
         :page-size="queryInfo.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
@@ -96,6 +96,33 @@ export default {
     },
     selectPlanNo () {
       this.getMachinePlanList()
+    },
+    getSum (param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+          return
+        }
+        if (index === 6) {
+          const values = data.map(item => Number(item[column.property]))
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr)
+              if (!isNaN(value)) {
+                return prev + curr
+              } else {
+                return prev
+              }
+            }, 0)
+            sums[index] += ' 条'
+          } else {
+            sums[index] = 'N/A'
+          }
+        }
+      })
+      return sums
     }
   }
 }
